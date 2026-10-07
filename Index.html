@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mizuki.shop | Game Top-Up</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #080811;
+      color: white;
+    }
+
+    header {
+      padding: 18px 6%;
+      background: #11111d;
+      border-bottom: 1px solid #29293d;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      color: #a970ff;
+      font-size: 25px;
+      font-weight: 900;
+    }
+
+    .logo span {
+      color: white;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 70px 20px;
+      background: radial-gradient(circle, #412060, #080811 70%);
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      margin: 10px 0;
+    }
+
+    .hero p {
+      color: #aaaabd;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 1100px;
+      margin: 40px auto;
+    }
+
+    .search {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 25px;
+      border-radius: 12px;
+      border: 1px solid #303047;
+      background: #11111d;
+      color: white;
+      font-size: 16px;
+    }
+
+    .games {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+    }
+
+    .game {
+      padding: 20px;
+      border-radius: 15px;
+      border: 1px solid #29293d;
+      background: #11111d;
+      cursor: pointer;
+    }
+
+    .game:hover {
+      border-color: #a970ff;
+    }
+
+    .icon {
+      font-size: 38px;
+    }
+
+    .game h3 {
+      margin-bottom: 5px;
+    }
+
+    .game p {
+      color: #9999aa;
+      font-size: 13px;
+    }
+
+    .box {
+      margin-top: 40px;
+      padding: 25px;
+      border-radius: 18px;
+      background: #11111d;
+      border: 1px solid #29293d;
+    }
+
+    label {
+      display: block;
+      margin: 15px 0 7px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid #303047;
+      background: #080811;
+      color: white;
+      font-size: 15px;
+    }
+
+    .packages {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .package {
+      padding: 18px;
+      background: #0b0b14;
+      border: 1px solid #303047;
+      border-radius: 12px;
+      color: white;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .package:hover {
+      border-color: #a970ff;
+    }
+
+    .price {
+      display: block;
+      margin-top: 8px;
+      color: #a970ff;
+      font-weight: bold;
+    }
+
+    .buy {
+      width: 100%;
+      padding: 16px;
+      margin-top: 25px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(90deg, #743bd0, #ad68ff);
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      color: #777788;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Mizuki<span>.shop</span></div>
+</header>
+
+<section class="hero">
+  <h1>Game Top-Up</h1>
+  <p>Fast and simple game top-ups at Mizuki.shop</p>
+</section>
+
+<main class="container">
+
+  <input
+    class="search"
+    id="search"
+    placeholder="Search your game..."
+  >
+
+  <h2>Popular Games</h2>
+
+  <div class="games" id="games"></div>
+
+  <div class="box">
+
+    <h2>Top Up <span id="selectedGame">Free Fire</span></h2>
+
+    <label>Player ID / UID</label>
+
+    <input
+      id="uid"
+      placeholder="Enter Player ID"
+    >
+
+    <label>Server ID</label>
+
+    <input
+      id="server"
+      placeholder="Enter Server ID (if required)"
+    >
+
+    <h3>Select Package</h3>
+
+    <div class="packages" id="packages"></div>
+
+    <button class="buy" onclick="checkout()">
+      Continue to Payment
+    </button>
+
+    <p id="message"></p>
+
+  </div>
+
+</main>
+
+<footer>
+  © 2026 Mizuki.shop
+</footer>
+
+<script>
+
+const games = [
+  ["🔥", "Free Fire", "Diamonds"],
+  ["🎯", "PUBG Mobile", "UC"],
+  ["⚔️", "Mobile Legends", "Diamonds"],
+  ["🧱", "Roblox", "Robux"],
+  ["🎮", "Valorant", "VP"],
+  ["🏰", "Clash of Clans", "Gems"],
+  ["✨", "Genshin Impact", "Crystals"],
+  ["🚆", "Honkai: Star Rail", "Shards"],
+  ["🧟", "Last Shelter: Survival", "Credits"]
+];
+
+const packages = {
+  "Free Fire": [
+    ["100 Diamonds", 20],
+    ["310 Diamonds", 55],
+    ["520 Diamonds", 90],
+    ["1060 Diamonds", 180]
+  ],
+
+  "PUBG Mobile": [
+    ["60 UC", 75],
+    ["325 UC", 380],
+    ["660 UC", 750],
+    ["1800 UC", 1950]
+  ],
+
+  "Mobile Legends": [
+    ["86 Diamonds", 90],
+    ["172 Diamonds", 170],
+    ["257 Diamonds", 250],
+    ["Weekly Pass", 180]
+  ],
+
+  "Roblox": [
+    ["400 Robux", 450],
+    ["800 Robux", 850],
+    ["1700 Robux", 1650],
+    ["4500 Robux", 4100]
+  ],
+
+  "Valorant": [
+    ["475 VP", 500],
+    ["1000 VP", 950],
+    ["2050 VP", 1900],
+    ["3650 VP", 3300]
+  ],
+
+  "Clash of Clans": [
+    ["500 Gems", 450],
+    ["1200 Gems", 850],
+    ["2500 Gems", 1650],
+    ["6500 Gems", 4000]
+  ],
+
+  "Genshin Impact": [
+    ["300 Crystals", 500],
+    ["980 Crystals", 1450],
+    ["1980 Crystals", 2800],
+    ["3280 Crystals", 4400]
+  ],
+
+  "Honkai: Star Rail": [
+    ["300 Shards", 500],
+    ["980 Shards", 1450],
+    ["1980 Shards", 2800],
+    ["3280 Shards", 4400]
+  ],
+
+  "Last Shelter: Survival": [
+    ["Small Credit Pack", 99],
+    ["Medium Credit Pack", 249],
+    ["Large Credit Pack", 499],
+    ["Mega Credit Pack", 999]
+  ]
+};
+
+let selected = "Free Fire";
+
+function showGames(list = games) {
+
+  const box = document.getElementById("games");
+
+  box.innerHTML = "";
+
+  list.forEach(game => {
+
+    const div = document.createElement("div");
+
+    div.className = "game";
+
+    div.innerHTML = `
+      <div class="icon">${game[0]}</div>
+      <h3>${game[1]}</h3>
+      <p>${game[2]}</p>
+    `;
+
+    div.onclick = () => {
+
+      selected = game[1];
+
+      document.getElementById(
+        "selectedGame"
+      ).textContent = selected;
+
+      showGames(
+        games.filter(g =>
+          g[1].toLowerCase().includes(
+            document.getElementById("search").value.toLowerCase()
+          )
+        )
+      );
+
+      showPackages();
+    };
+
+    box.appendChild(div);
+
+  });
+}
+
+function showPackages() {
+
+  const box =
+    document.getElementById("packages");
+
+  box.innerHTML = "";
+
+  const list = packages[selected] || [];
+
+  list.forEach(item => {
+
+    const button =
+      document.createElement("button");
+
+    button.className = "package";
+
+    button.innerHTML = `
+      <strong>${item[0]}</strong>
+      <span class="price">₹${item[1]}</span>
+    `;
+
+    button.onclick = () => {
+
+      document
+        .querySelectorAll(".package")
+        .forEach(x =>
+          x.style.borderColor = "#303047"
+        );
+
+      button.style.borderColor = "#a970ff";
+
+      button.dataset.selected = "true";
+    };
+
+    box.appendChild(button);
+
+  });
+}
+
+document
+  .getElementById("search")
+  .addEventListener("input", function() {
+
+    const value =
+      this.value.toLowerCase();
+
+    showGames(
+      games.filter(game =>
+        game[1]
+          .toLowerCase()
+          .includes(value)
+      )
+    );
+
+  });
+
+function checkout() {
+
+  const uid =
+    document.getElementById("uid").value.trim();
+
+  const selectedPackage =
+    document.querySelector(
+      '.package[data-selected="true"]'
+    );
+
+  const message =
+    document.getElementById("message");
+
+  if (!uid) {
+
+    message.style.color = "#ff5c6c";
+
+    message.textContent =
+      "Please enter your Player ID.";
+
+    return;
+  }
+
+  if (!selectedPackage) {
+
+    message.style.color = "#ff5c6c";
+
+    message.textContent =
+      "Please select a package.";
+
+    return;
+  }
+
+  message.style.color = "#64e69a";
+
+  message.textContent =
+    "Ready for payment. Razorpay will be connected in the next step.";
+
+}
+
+showGames();
+showPackages();
+
+</script>
+
+</body>
+</html>
